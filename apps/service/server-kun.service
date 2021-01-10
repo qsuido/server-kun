@@ -1,0 +1,18 @@
+[Unit]
+Description=Server-kun Service
+Wants=network-online.target
+After=syslog.target network.target nss-lookup.target network-online.target docker.service
+
+[Service]
+User=qsuido
+Group=qsuido
+WorkingDirectory=/home/qsuido/server-kun/apps
+ExecStartPre=source /home/qsuido/server-kun/apps/.env
+ExecStart=/usr/local/bin/docker-compose -p server-kun -f /home/qsuido/server-kun/apps/docker-compose.yaml up
+ExecReload=/usr/local/bin/docker-compose -p server-kun -f /home/qsuido/server-kun/apps/docker-compose.yaml restart
+ExecStop=/usr/local/bin/docker-compose -p server-kun -f /home/qsuido/server-kun/apps/docker-compose.yaml down
+Restart=always
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

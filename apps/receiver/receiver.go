@@ -15,15 +15,19 @@ import (
 )
 
 type messageTemplate struct {
-	start string
-	stop  string
+	start        string
+	stop         string
+	startTrigger string
+	stopTrigger  string
 }
 
 func readMessageTemplate() *messageTemplate {
 	start := os.Getenv("START_MESSAGE")
 	stop := os.Getenv("STOP_MESSAGE")
+	startTrigger := os.Getenv("START_TRIGGER")
+	stopTrigger := os.Getenv("STOP_TRIGGER")
 
-	return &messageTemplate{start, stop}
+	return &messageTemplate{start, stop, startTrigger, stopTrigger}
 }
 
 type requestBody struct {
@@ -63,14 +67,14 @@ func stopServer() error {
 func monitorMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
 	mt := readMessageTemplate()
 
-	if strings.Contains(m.Content, ":minecraft_start:") {
+	if strings.Contains(m.Content, mt.startTrigger) {
 		err := startServer()
 		if err != nil {
 			log.Fatalf("Starting server failed: %v", err)
 		}
 		s.ChannelMessageSend(m.ChannelID, mt.start)
 	}
-	if strings.Contains(m.Content, ":minecraft_stop:") {
+	if strings.Contains(m.Content, mt.stopTrigger) {
 		err := stopServer()
 		if err != nil {
 			log.Fatalf("Stopping server failed: %v", err)
