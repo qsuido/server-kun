@@ -22,12 +22,12 @@ Server-kun はGoogle Compute Engine(GCE)インスタンスをいい感じにDisc
     1. functions/autostop
         1. .env.yamlを設置
         1. helper.shを参考にCloudFunctionにDeploy
-2. 永続サーバにreceiverを設置して起動する
-    2. apps/.envファイルに環境変数を設定
-    2. apps/で ```docker-compose build``` を実行する
-    2. server-kun.serviceをsystemdに登録して起動する
-        2. apps/service/server-kun.service 内の実行ユーザー名とディレクトリ名を編集すること
-        2. /etc/systemd/system あたりに server-kun.service を設置する
+1. 永続サーバにreceiverを設置して起動する
+    1. apps/.envファイルに環境変数を設定
+    1. apps/で ```docker-compose build``` を実行する
+    1. server-kun.serviceをsystemdに登録して起動する
+        1. apps/service/server-kun.service 内の実行ユーザー名とディレクトリ名を編集すること
+        1. /etc/systemd/system あたりに server-kun.service を設置する
 
 ```yaml:functions/start/.env.yaml
 SERVER_PROJECT: GCPプロジェクトID
